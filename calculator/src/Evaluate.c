@@ -10,8 +10,8 @@ void evaluateOperator(Stack *dataStack ,  OperatorToken *opeToken){
 
 	NumberToken *answer;
 	
-	NumberToken *first =(NumberToken*)pop(dataStack);
 	NumberToken *second =(NumberToken*)pop(dataStack);
+	NumberToken *first =(NumberToken*)pop(dataStack);
 	
 	switch(opeToken->name[0])
 	{	
@@ -64,13 +64,20 @@ void evaluateAlloperatorOnStack(Stack *operatorStack , Stack *dataStack){
 
 void tryEvaluateOperatorsOnStackThenPush(Stack *dataStack, Stack *operatorStack , OperatorToken *operator){
 
-	OperatorToken *tempOperatorToken = pop(operatorStack);
-	if(operator->precedence > tempOperatorToken->precedence){
+	OperatorToken *tempOperatorToken;
+	while(1){
+	tempOperatorToken = pop(operatorStack);
+	if(tempOperatorToken == NULL){
+		push(operatorStack,operator);
+		break;
+	}
+	else if(operator->precedence > tempOperatorToken->precedence){
 		push(operatorStack,tempOperatorToken);
 		push(operatorStack,operator);
+		break;
 	}else
 		evaluateOperator(dataStack,tempOperatorToken);
-		
+	}	
 	
 }
 	

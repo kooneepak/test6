@@ -8,7 +8,6 @@
 
 int evaluate(char *expression , Stack *dataStack , Stack *operatorStack ){
 
-	
 	Tokenizer *tokenizer;
 	Token *token;
 	NumberToken *number;
@@ -27,8 +26,18 @@ int evaluate(char *expression , Stack *dataStack , Stack *operatorStack ){
 	push(dataStack,number);
 	
 
-	
-}
+	operator=(OperatorToken *)nextToken(tokenizer);
+	if(operator == NULL){
+		break;
+	}else if(operator->type!=OPERATOR_TOKEN){
+	Throw(ERR_NOT_OPERATOR);
+	}else
+	tryEvaluateOperatorsOnStackThenPush(dataStack, operatorStack ,operator);	
+	}
+	evaluateAlloperatorOnStack(operatorStack ,dataStack);
+
+
+
 }
 
 
